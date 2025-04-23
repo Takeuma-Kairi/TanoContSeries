@@ -32,6 +32,7 @@ TanoContSeries-TanoContBTAP/
 
 ## 連絡先
 作成者: [竹馬 浬](https://github.com/Takeuma-Kairi) (たけうま かいり)
+
 Email: support@takeuma-kairi.sakura.ne.jp
 
 
