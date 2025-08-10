@@ -1,0 +1,19 @@
+.kakomi{
+	border: black solid 1px;
+	padding:1em;
+}
+
+body{
+	/* -webkit-writing-mode:	vertical-rl; */
+	/* -epub-writing-mode:	vertical-rl; */
+	/* writing-mode:	vertical-rl; */
+
+	/* -webkit-text-orientation: mixed; */
+	/* -epub-text-orientation: mixed; */
+	/* text-orientation: mixed; */
+}
+
+.page_rely{
+	max-width:80%;
+	max-height:80%;
+}

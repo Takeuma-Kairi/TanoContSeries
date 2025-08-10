@@ -18,6 +18,7 @@ TanoContSeries-TanoContBTAP/
 ├── BTAicon.png    # アイコン画像
 ├── 大陸シリーズ目次順番    # 保守用
 ├── StoryJS/    # ストーリーファイル
+├── StoryCleartext/     #平文版HTML
 ├── Assist/    # ストーリー補助ファイル(添付画像など)
 ├── Colors/    # カラースキームファイル
 └── Sources/

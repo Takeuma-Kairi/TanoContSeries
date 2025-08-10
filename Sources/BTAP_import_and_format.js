@@ -1,7 +1,7 @@
 
 //=======================================
 //ストーリーデータを整形して得る
-function load_data(scr, temp_if_under_writable=false){
+function load_data(scr, temp_if_under_writable, temp_cleartext_filename){
 //scr: ストーリーデータのスクリプト
 //temp_if_under_writable: 下に積み上げて表示するか否か。初期値はfalse、積み上げて表示しない。
 
@@ -22,6 +22,9 @@ function load_data(scr, temp_if_under_writable=false){
 
 	/* 下に積み上げて表示するか(するならtrue) */
 	if_under_writable = temp_if_under_writable;
+  
+	/* 平文版あるか(あるならHTMLファイル名、さもなくば空文字) */
+	cleartext_filename = temp_cleartext_filename;
 
 	//「最初から」ボタンを表示
 	//この前後で、straight_mov()によって非表示になっている可能性があるので、改めて表示しておく
@@ -460,6 +463,11 @@ function mapping(mokuji){ //引数mokujiは整数。ページ固有画像名の�
             + '</li>';
     }
     
+    if(cleartext_filename != ""){
+      abst += '<li class="li_sel">'
+            + '<a href="StoryCleartext\\' + cleartext_filename + '.html" target="_blank">平文版（新しいタブで開く）</a>'
+            + '</li>';
+    }
     //===========================
     abst += '</ul></div>';                          
 

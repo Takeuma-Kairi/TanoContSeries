@@ -17,6 +17,8 @@ let local_mapArr =[]; //ミニマップの現在位置を表す画像群を配�
 
 let if_under_writable = false;  //下に積み上げて表示の可否。デフォルトではfalse、つまりページを分けて表示していく
 
+let cleartext_filename = false; //平文版表示するかどうか
+
 let tob_nameArr = {}; //tob関数用の配列。構造→[タブ名: ページ番号]
 
 let ifAuthor = false; //開発者モードか否か。
