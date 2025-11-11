@@ -1,7 +1,7 @@
 
 //=======================================
 //ストーリーデータを整形して得る
-function load_data(scr, temp_if_under_writable, temp_cleartext_filename){
+function load_data(scr, temp_if_under_writable=false, temp_cleartext_filename=""){
 //scr: ストーリーデータのスクリプト
 //temp_if_under_writable: 下に積み上げて表示するか否か。初期値はfalse、積み上げて表示しない。
 
