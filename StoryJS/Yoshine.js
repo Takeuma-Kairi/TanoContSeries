@@ -1,4 +1,4 @@
-var Yoshine = `<flag:0>
+const Yoshine = `<flag:0>
 <item:4>
 [0]南煙石町の地図#<img src='Assist/Yoshine_assist/simple_map.png' style='width:330px;height:220px'/>
 [1]管轄の南煙石町の地図#<img src='Assist/Yoshine_assist/minamikemuriishi.png' style='width:330px;height:220px'/>

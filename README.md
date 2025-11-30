@@ -1,4 +1,7 @@
 # TanoContSeries
+## 更新日
+2025/11/30 
+
 ## 概要
 自作ストーリー「大陸物語」を選択式テキストアドベンチャーゲーム風にしたものです。
 
@@ -7,6 +10,8 @@
 HTML, CSS, JavaScriptで構成されています。
 
 ## 使い方
+本サイトは、[こちら](https://takeuma-kairi.sakura.ne.jp/TanoContBTAP/index.html)で公開しています。
+
 1. [GitHubサイト](https://github.com/Takeuma-Kairi/TanoContSeries)で、「Code」→「Download ZIP」をクリックし、ZIPファイルをダウンロードしてください。
 2. ブラウザで`index.html`を開きます。
 3. 「画面説明」をクリックし、操作方法を確認してください。
@@ -14,19 +19,21 @@ HTML, CSS, JavaScriptで構成されています。
 ## プロジェクト構成
 ```
 TanoContSeries-TanoContBTAP/
-├── index.html    # メインHTMLファイル
-├── BTAicon.png    # アイコン画像
-├── 大陸シリーズ目次順番    # 保守用
-├── StoryJS/    # ストーリーファイル
+├── index.html          # メインHTMLファイル
+├── BTAicon.png         # アイコン画像
+├── 大陸シリーズ目次順番.ods    
+├── README.md           # 本ファイル
+├── ChangeLog.txt       # 修正履歴まとめ
+├── StoryJS/            # ストーリーファイル
+├── StoryOptionDic/     #ストーリーのオプション
+｜      └── StoryOptionDic.js
 ├── StoryCleartext/     #平文版HTML
-├── Assist/    # ストーリー補助ファイル(添付画像など)
-├── Colors/    # カラースキームファイル
+├── Assist/     # ストーリー補助ファイル(添付画像など)
+├── Colors/     # カラースキームファイル
 └── Sources/
-        ├── main.js # HTMLの制御とグローバス変数・定数
-        ├── BTAP_interactive_control.js #ユーザー、BTAP間のインタラクティブな処理
-        ├── BTAP_import_and_format.js #ストーリー読み込みやデータ整形などの処理
-        ├── BTAP_script.js #ストーリーファイル内で使う制御用スクリプト
-        └── style.css    # スタイルシート
+        ├── main.js     # JavaScriptコード
+        ├── BTAP_script.js   #ストーリーファイル内で使う制御用スクリプト
+        └── style.css
 ```
 ## ライセンス
 このプロジェクトは [MITライセンス](https://licenses.opensource.jp/MIT/MIT.html) のもとで公開されています。
