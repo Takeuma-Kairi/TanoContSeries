@@ -862,7 +862,7 @@ function mapping(mokuji){ //引数mokujiは整数。ページ固有画像名の�
     
     if(cleartext_filename != ""){ //平文版の有無の判定
       abst += '<li class="li_sel">'
-            + '<a href="StoryCleartext\\' + cleartext_filename + '.html" target="_blank">平文版（新しいタブで開く）</a>'
+            + '<a href="StoryCleartext\\' + cleartext_filename + '.html" target="_blank" tabindex="0" accesskey="c">平文版（新しいタブで開く）(<u>C</u>)</a>'
             + '</li>';
     }
     //===========================
