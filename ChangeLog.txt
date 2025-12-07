@@ -270,3 +270,7 @@ s:選択肢#tob('efg');
  また、StoryJS内の制御用スクリプトはmain.jsとBTAP_script.jsのみに統合しました。
 
  また、平文版に、アクセスキー(c)を追加しました
+
+
+2025.12.07 v5.19.1
+	main.js、BTAP_script.jsリファクタリング

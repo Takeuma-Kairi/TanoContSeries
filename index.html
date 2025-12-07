@@ -27,7 +27,7 @@
   <!--日本語対応-->
   <meta charset="UTF-8"> 
   
-  <title>大陸シリーズ BTAP4</title>
+  <title>大陸シリーズ BTAP4 5.19.1</title>
   <meta name="viewport" content="width=device-width" />
   <link rel="stylesheet" href="Sources/style.css" type="text/css">
   
@@ -95,14 +95,14 @@
 
 		<p>
       <label>ソート順: 
-          <select onchange="sort_story_select_table()" id="way_sel">
+          <select onchange="sort_story_select_table()" id="sort_order_sel">
             <option value="ascend">昇順</option>
             <option value="descend" selected>降順</option>
           </select>
       </label>
 
       <label>／条件: 
-          <select onchange="sort_story_select_table()" id="category_sel">
+          <select onchange="sort_story_select_table()" id="sort_category_sel">
             <option value="made" selected>作成順</option>
             <option value="series">シリーズ順</option>
             <option value="history">時系列順</option>
@@ -186,7 +186,7 @@
 
     <p>
       <label>表示を中央揃え／左揃えにする<br>
-        <input type="checkbox" id="chb_align_center" onchange="change_align_center()" value="1"/>中央揃えにする
+        <input type="checkbox" id="chb_text_align" onchange="change_text_align()" value="1"/>中央揃えにする
       </label>
     </p>
 
@@ -266,7 +266,7 @@
     
     <hr>
 	
-		<h2>テキスト形式のストーリーファイル読み込み</h2>
+    <h2>テキスト形式のストーリーファイル読み込み</h2>
       <form id="form_page">
         <label>ストーリーファイルを選択してください(<u>T</u>)<br>
             <input id="myfile" type="file" onchange="load_txt_data()" tabindex="0" accesskey="t"/>
@@ -275,7 +275,7 @@
     <hr>
 	
     <h2>開発者モード</h2>
-    <button onclick="password_insert()" tabindex="0" accesskey="p">パスワード入力…(<u>P</u>)</button>
+    <button onclick="change_to_dev_mode()" tabindex="0" accesskey="p">パスワード入力…(<u>P</u>)</button>
 
 	</div>
 
@@ -285,30 +285,28 @@
 
     <div id="desc_and_item" class="desc_and_item">
 
-      <div id="button_redo_and_skip" class="buttons_area">
-        <div class="tool_button redo_and_skip" onclick="tab_close()"><a href="#" id="tab_close_button" class="a_without_underline">↑非表示</a></div>
-        <div class="tool_button redo_and_skip" onclick="remov()"><a href="#" class="a_without_underline">戻る</a></div>
-        <div class="tool_button redo_and_skip" onclick="pageskip()"><a href="#" class="a_without_underline">とばす</a></div>
-        <div class="tool_button redo_and_skip" id="fromScratch" onclick="fromScratch()"><a href="#" class="a_without_underline">最初から</a></div>
-        <div class="tool_button redo_and_skip map_button" id="map_button" onclick="open_map()"><a href="#" class="a_without_underline">マップ</a></div>
+      <div id="play_toolbuttonsDiv" class="play_toolbuttonsDiv">
+        <div class="tool_button play_toolbutton" onclick="tab_close()"><a href="#" id="tab_close_button" class="a_without_underline">↑非表示</a></div>
+        <div class="tool_button play_toolbutton" onclick="remov()"><a href="#" class="a_without_underline">戻る</a></div>
+        <div class="tool_button play_toolbutton" onclick="page_skip()"><a href="#" class="a_without_underline">とばす</a></div>
+        <div class="tool_button play_toolbutton" onclick="from_scratch()"><a href="#" class="a_without_underline">最初から</a></div>
+        <div class="tool_button play_toolbutton map_button" id="map_button" onclick="open_map()"><a href="#" class="a_without_underline">マップ</a></div>
       </div>
 
       <!-- 全ページモード ========================================== -->
-      <div id="all_page_view" class="all_page_view">
+      <div id="all_page_formsDiv" class="all_page_formsDiv">
       
         <!--セレクト リスト-->
         <label>全ページリスト：
           <select id="all_page_sel" name="all_page_sel" size="1" onchange="all_page_mov(this.value)" tabindex="0">
-            <option selected>この項目が表示されているのはバグだと思う</option>
+            <option selected>---</option>
           </select>
         </label>
 
         <!--ボタン 「←」 「→」 -->
-        <button id="all_page_down" onclick="all_page_step(-1);" tabindex="0" accesskey="h">←(<u>H</u>)</button>
-        <button id="all_page_up" onclick="all_page_step(1);" tabindex="0" accesskey="m">→(<u>M</u>)</button>
-        <!--ストーリーの意義 未定-->
-        <div id="all_page_mean">
-        </div>
+        <button id="all_page_down" onclick="all_page_shift(-1);" tabindex="0" accesskey="h">←(<u>H</u>)</button>
+        <button id="all_page_up" onclick="all_page_shift(1);" tabindex="0" accesskey="m">→(<u>M</u>)</button>
+
       </div>
       <!--====================================================-->
 
@@ -423,8 +421,8 @@
   </div>
   
 <!--主要なJSコード-->
-<script src="Sources/main.js?20251130" defer></script>
-<script src="Sources/BTAP_script.js?20251130" defer></script>
+<script src="Sources/main.js?20251207" defer></script>
+<script src="Sources/BTAP_script.js?20251207" defer></script>
 
 	<!-- ストーリーのJS -->
 <script src="StoryJS/Kunugi.js?20251130" defer></script>

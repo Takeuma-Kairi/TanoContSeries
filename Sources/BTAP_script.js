@@ -3,7 +3,7 @@
   function mov(tow) {
     page_number = tow;
     let temp  =makesave();
-    save_data_breadcrumbArr.unshift(temp);  //セーブを追加、パンくずを追加する
+    savedata_footprintArr.unshift(temp);  //セーブを追加、パンくずを追加する
     
     //========-
     mapping(tow);
@@ -13,7 +13,7 @@
     if(all_page_mode.textContent == ToTSUJO){
       all_page_sel.selectedIndex=tow;
     }
-
+    
     show_page();
   }
 
@@ -29,14 +29,14 @@
 		}
 
     itemArr[n]["hav"]=true;
-    display_ite();
+    listing_item();
   }
 
   //アイテムをなくす
   function losi(n){
     itemArr[n]["hav"]=false;
     ite_reflesh();
-    display_ite();
+    listing_item();
   }
 
   //フラグtrueに
