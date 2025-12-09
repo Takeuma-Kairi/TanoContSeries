@@ -1,37 +1,13 @@
-//##############################################################################
-// ページ情報を入れたり、プレイ時に変更される変数
-let flagArr = [];  //フラグ
-let itemArr = [];  //アイテム[nam:名前, exp:説明, hav:true/falseで所有]
-let pageArr = [];  //フィールド[nam:名前, exp:説明, sel:[選択肢名, 実行文章]]
-let page_number = 0;      //ページ番号
-let numArr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];  //番号配列（フラグの補助的）
+//定数
+//= 通常モード、全ページ閲覧モードの文章 =============
 
-//##############################################################################
-// ミニマップ関係
-
-let minimap_folder_name = ""; //→ミニマップ画像の入っているフォルダ名。（Assist/XXX/map/の中にマップ画像群が入っている。この変数には、文字列XXXが入る。）
-
-let minimapArr =[]; 
-//→ミニマップの現在位置を表す画像群を配列にする。
-//[ [目次番号, 背景ファイル名, 現在地ファイル名] ...]
-
-//##############################################################################
-let tob_nameArr = {}; //tob関数用の連想配列。[タブ名: ページ番号]
-
-let isAuthor = false; //開発者モードならばtrue。
-
-let savedata_footprintArr = []; //セーブデータ文字列を入れる配列。パンくずリスト。「戻る(remov)」で利用する
-
-
-//##############################################################################
-// 通常モード、全ページ閲覧モードの文章 
 // "all_page_mode"ボタンのinnerTextは、以下の2つのいずれか
 const ToTSUJO= "→通常モード(<u>A</u>)";
 const ToZENPAGE= "→全ページ閲覧モード(<u>A</u>)";
+//=============================================
 
 
-//##############################################################################
-// それぞれのタブ 
+//= それぞれのタブ ===============================
 const TABDIV_PAGE = document.getElementById("tabDiv_page");
 const TABDIV_SETTING = document.getElementById("tabDiv_setting");
 const TABDIV_SELECT = document.getElementById("tabDiv_select");
@@ -39,10 +15,11 @@ const TABDIV_SUMMARY = document.getElementById("tabDiv_summary");
 
 //↑を配列にしたもの
 const TABDIV_ARR = [TABDIV_SETTING, TABDIV_SELECT, TABDIV_PAGE, TABDIV_SUMMARY];
+//=============================================
 
-//##############################################################################
 
-//上部のボタン・フォーム集
+//=画面上部のボタン・フォーム集 ======================
+
 //全ページ閲覧モード・通常モード切り替えのボタン
 const ALL_PAGE_MODE = document.getElementById("all_page_mode");
 //全ページモード閲覧時のページ変更フォーム
@@ -50,21 +27,52 @@ const ALL_PAGE_FORMSDIV = document.getElementById("all_page_formsDiv");
 //通常モードでの、戻る、とばす、マップなどのフォーム
 const PLAY_TOOLBUTTONSDIV = document.getElementById("play_toolbuttonsDiv");
 
+//=============================================
 
-//##############################################################################
 
-//アイテムを（非）表示のボタン
-const BUTTON_OPENITEM = document.getElementById("button_openitem");
+//アイテムを（非）表示のボタン ========================
+const BUTTON_OPENITEM = document.getElementById("button_openitem");//=============================================
 
-//##############################################################################
 
-//ストーリー本文(タイトル、描写文、選択肢)を入れるdiv
-const D_DESC=document.getElementById("d_desc"); 
+//ストーリー本文(タイトル、描写文、選択肢)を入れるdiv ===
+const D_DESC=document.getElementById("d_desc");
+//=============================================
 
-//モーダルウィンドウ描写部
+
+//モーダルウィンドウ描写部 ==========================
 const ABST_DESC=document.getElementById("abst_desc");
+//=============================================
 
 //##############################################################################
+// ページ情報を入れたり、プレイ時に変更される変数
+
+let flagArr = [];  //フラグ
+let itemArr = [];  //アイテム[nam:名前, exp:説明, hav:true/falseで所有]
+let pageArr = [];  //フィールド[nam:名前, exp:説明, sel:[選択肢名, 実行文章]]
+let page_number = 0;      //ページ番号
+let numArr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];  //番号配列（フラグの補助的）
+let tob_nameArr = {}; //tob関数用の連想配列。[タブ名: ページ番号]
+
+//=============================================
+
+let isAuthor = false; //開発者モードならばtrue。
+
+//=============================================
+
+let savedata_footprintArr = []; //セーブデータ文字列を入れる配列。パンくずリスト。「戻る(remov)」で利用する
+
+//= ミニマップ関係 ==========================
+let minimap_folder_name = ""; //→ミニマップ画像の入っているフォルダ名。（Assist/XXX/map/の中にマップ画像群が入っている。この変数には、文字列XXXが入る。）
+
+let minimapArr =[];
+//→ミニマップの現在位置を表す画像群を配列にする。
+//[ [目次番号, 背景ファイル名, 現在地ファイル名] ...]
+//=============================================
+
+
+//##############################################################################
+//##############################################################################
+
 // サイト読み込み時、まずストーリー選択テーブルのソートをする
 window.addEventListener('DOMContentLoaded', function() {
   sort_story_select_table();
@@ -76,7 +84,7 @@ function sort_story_select_table(){
   //表と配列の転記を行う。
   // 表データ → 配列 → (ソート) → ソートした表 → 表データ
   const STORY_SELECT_TABLE = document.getElementById("story_select_table"); //表
-  
+
   let sort_order = document.getElementById("sort_order_sel").value; //昇順か降順か
   let sort_category = document.getElementById("sort_category_sel").value; //どのカテゴリーでソート？
 
@@ -87,8 +95,8 @@ function sort_story_select_table(){
   const MADE_COLUMN = 3;
   const HISTORY_COLUMN = 4;
   //###########################
-  
-  
+
+
   //フォームから読み取った並び替えの情報を、数値(1 or -1)に直す
   if(sort_order == "ascend"){  //昇順ならば
     sort_order = 1;
@@ -106,20 +114,20 @@ function sort_story_select_table(){
     default:
       break;
   }
-  
+
   //###########################
   //ソート前の表を記録する配列
-  
-  let table_dataArr=[]; 
-  
+
+  let table_dataArr=[];
+
   //構造は３重配列
-  //[ [ rowのonclickイベント処理, 
+  //[ [ rowのonclickイベント処理,
   //      [セルのinnerHTML, セルのinnerText],[その隣のセルのinnerHTML,セルのinnerText],...
   //  ],...]
   //
   // innerHTMLは単純にそのままコピペ用。
   // ただし、innerHTMLでは不要な情報が入っているためソートできないため、ソート用にinnerTextも入れておく
-  
+
   //現在の表の情報をtable_dataArrに転記する
   for (ri = 1; ri < STORY_SELECT_TABLE.rows.length; ri++) {
     temp_table_dataArr = [STORY_SELECT_TABLE.rows[ri].onclick];
@@ -152,19 +160,19 @@ function sort_story_select_table(){
     }
   }
 }
-  
 
-//##############################################################################  
+
+//##############################################################################
 // 上のタブ選択リボン(header)を開閉する
 function tab_close(){
   const HEADER = document.getElementById("header");
   const TAB_CLOSE = document.getElementById("tab_close_button");
-  
+
   if(header.style.display == "none"){ //もしリボンが「非表示」なら、「表示」させる
     HEADER.style.display = "block";
-    TAB_CLOSE.innerText = "↑非表示"; //表示されているので、ボタンは「非表示にさせるならここを押す」旨を表示する     
+    TAB_CLOSE.innerText = "↑非表示"; //表示されているので、ボタンは「非表示にさせるならここを押す」旨を表示する
     TABDIV_PAGE.className = "tabDiv"; //リボン表示させるCSSクラス
-    
+
   }else{  //もしリボンが「表示」なら、「非表示」にさせる
     HEADER.style.display = "none";
     TAB_CLOSE.innerText = "↑ 表示";
@@ -172,21 +180,21 @@ function tab_close(){
   }
 
 }
-  
 
-//############################################################################## 
+
+//##############################################################################
 // タブの変更
-function change_tab(selected_tab){  
+function change_tab(selected_tab){
   //引数のselected_tabは整数。 0:設定、1:選ぶ、2:みる、3:まとめ
   //この数字の振り方は開発してきた順であり、左側から表示されている順ではない！
-  
+
   //========================
   //# タブ選択リボンの各ボタン #############
   const LI_SETTING = document.getElementById("li_setting");
   const LI_SELECT = document.getElementById("li_select");
   const LI_PAGE = document.getElementById("li_page");
   const LI_SUMMARY = document.getElementById("li_summary");
-  
+
 
   //========================
   //# ボタン、タブを配列にする #############
@@ -206,12 +214,12 @@ function change_tab(selected_tab){
   }
 }
 
-//############################################################################## 
+//##############################################################################
 // ページを左揃え／中央揃えにする。
   function change_text_align(){
     const CHB_TEXT_ALIGN = document.getElementById("chb_text_align");
     const DESC_AND_ITEM = document.getElementById("desc_and_item");
-    
+
     //中央揃えにするチェックボックスフォームから判断
     if(CHB_ALIGN_CENTER.checked){
       DESC_AND_ITEM.style.textAlign = "center";
@@ -221,7 +229,7 @@ function change_tab(selected_tab){
   }
 
 
-//############################################################################## 
+//##############################################################################
 //フォントサイズの変更
 //最大30、最小12、デフォルト18にしている。深い意味はない。
 function change_fontsize(p = "18"){
@@ -232,16 +240,16 @@ function change_fontsize(p = "18"){
 	let parseInt_result = parseInt(p);
 	if (isNaN(parseInt_result)){  //数字じゃないものが入力された場合、デフォルト値に上書きする
 		p = DEF + "";
-	}else{  
+	}else{
 		if(parseInt_result < MIN){  //最低値、最高値で制限をかける
 			p = MIN + "";
 		}else if (parseInt_result > MAX){
 			p = MAX + "";
 		}
 	}
-  
+
   //===========================================
-	// 実際の文章と、設定フォームに反映する 
+	// 実際の文章と、設定フォームに反映する
 	const REIBUN = document.getElementById("reibun");
 	const FONTSIZE_RANGE = document.getElementById("fontsize_range");
 	const FONTSIZE_NUMBER = document.getElementById("fontsize_number");
@@ -249,12 +257,12 @@ function change_fontsize(p = "18"){
 	TABDIV_PAGE.style.fontSize = p + "px";  //本文のフォントサイズ
 	REIBUN.style.fontSize = p + "px";  //「フォントサイズ確認サンプル文章」のフォントサイズ
 
-	FONTSIZE_RANGE.value = p; 
+	FONTSIZE_RANGE.value = p;
 	FONTSIZE_NUMBER.value = p;
 
 }
 
-//############################################################################## 
+//##############################################################################
 //画面(tabDiv)横幅の変更
 //デフォルト60%にしている。深い意味はない。
 function change_tabDivwidth(p="60"){
@@ -263,21 +271,21 @@ function change_tabDivwidth(p="60"){
   //最低値は0%としておく。ただ、実際には0%にはならない。
   //ｃｓｓで最低360pxの幅は確保されるため、狭くなりすぎてしまうことはない。
 	const MIN = 0;
-  
+
 	let parseInt_result = parseInt(p);
 
 	if (isNaN(parseInt_result)){  //数字じゃないものが入力された場合、デフォルト値に上書きする
 		p = DEF + "";
-	}else{  
+	}else{
 		if(parseInt_result < MIN){  //最低値、最高値で制限をかける
 			p = MIN + "";
 		}else if (parseInt_result > MAX){
 			p = MAX + "";
 		}
 	}
-  
+
   //===========================================
-	// 実際のスタイルと、設定フォームに反映する 
+	// 実際のスタイルと、設定フォームに反映する
 	const TABDIV_WIDTH_RANGE = document.getElementById("tabDiv_width_range");
 	const TABDIV_WIDTH_NUMBER = document.getElementById("tabDiv_width_number");
 
@@ -290,7 +298,7 @@ function change_tabDivwidth(p="60"){
 	}
 }
 
-//############################################################################## 
+//##############################################################################
 // カラースキームの変更
 function change_colorscheme(colorscheme_name) {
 	let colorscheme = document.getElementById("colorscheme");
@@ -301,20 +309,20 @@ function change_colorscheme(colorscheme_name) {
 function reset_setting(){
 	const chb_align_center = document.getElementById("chb_align_center");
   const DEFAULT_COLORSCHEME ="default"; //デフォルトのカラースキーム
-  
+
 	chb_align_center.checked = false; //中央ぞろえにしない
 	change_text_align();
-  
+
 	change_fontsize();  //フォントサイズ
-  
+
 	change_tabDivwidth(); //横幅
-  
+
   //カラースキームの変更
   change_colorscheme(DEFAULT_COLORSCHEME);
   document.getElementById("colorscheme_select").value=DEFAULT_COLORSCHEME;
 }
 
-//############################################################################## 
+//##############################################################################
 
 //！！これより下、アイテム表示や獲得などの流れについてはさらなる検討が必要！！
 //無意味な処理などが含まれていないか心配
@@ -328,7 +336,7 @@ function unvail_item(){
   BUTTON_OPENITEM.innerHTML = "↑アイテムを非表示";
 }
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 //アイテム欄を非表示
 function hide_item(){
 	let d_item = document.getElementById("d_item");
@@ -359,16 +367,16 @@ function show_item(){
 function listing_item(){
   let item_sel = document.getElementById("d_item_sel");
   let item_exp = document.getElementById("d_item_exp");
-  
+
   item_exp.innerHTML="";  //初期化。これがないと、別のストーリーで得たアイテムの表示が残る。
-  item_sel.innerHTML="";  
+  item_sel.innerHTML="";
 
   for(let i=0;i<itemArr.length;i++){
     if(itemArr[i]["hav"]){
       //「もちもの」タブにラジオボタンを追加する。
-      item_sel.innerHTML += 
+      item_sel.innerHTML +=
         '<label><input type="radio" name="item" onclick="item_exp_write(' + i + ')"/>'
-        + itemArr[i]["nam"] 
+        + itemArr[i]["nam"]
         + "</label><br>";
     }
   }
@@ -400,29 +408,31 @@ function get_item_alert(isalert){
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 //アイテム欄をリフレッシュする。
 //セーブデータをロードしたとき（たとえば「戻す」場合）、アイテムを失ったときに実行する
-function ite_reflesh(){
-  let have_any_item = false;  
+function item_reflesh(){
+  let have_any_item = false;
   //アイテムを何も所有していないか判定。存在していないなら、「アイテムを表示」ボタンは表示させない
-  
+
   for(let i=0; i< itemArr.length;i++){
     if(itemArr[i]["hav"]){
       geti(i);
       have_any_item = true;
     }
-  } 
+  }
 
   hide_item();
-  
-  BUTTON_OPENITEM.className="tool_button openitem"; //アイテム獲得時の強調は無しで初期化
-  
-  //アイテムが存在していないなら、「アイテムを表示」ボタンは表示させない
-  if(!have_any_item){
-    BUTTON_OPENITEM.style.display="none";    
-  }
-} 
-  
 
-//############################################################################## 
+  //get_item_alert(false) //アイテム獲得時の強調は無しで初期化する必要ある？
+
+  //アイテムが存在していないなら、「アイテムを表示」ボタンは表示させない
+  if(have_any_item){
+    BUTTON_OPENITEM.style.display="inline-block";
+  }else{
+    BUTTON_OPENITEM.style.display="none";
+  }
+}
+
+
+//##############################################################################
 //開発者モード
 function change_to_dev_mode(){
 	let password = prompt("パスワード？");
@@ -440,27 +450,27 @@ function change_to_dev_mode(){
 }
 
 
-//############################################################################## 
+//##############################################################################
 // 全ページ閲覧モードにおける、ページ移動、ページ選択リストフォームの処理
 
 //「←」、「→」ボタンで選んだ時 ==============
-function all_page_shift(step){ 
+function all_page_shift(step){
   //stepは1か-1のどちらかが入る。
   //<1: 前に1つ進む> <-1: 後ろに1つ進む>
-  
-  tow_temp=page_number+step;
+
+  let tow_temp = page_number+step;
 
   //選択ページ番号がオーバーフローしない限り移動できる
   if(tow_temp >=0 && tow_temp<pageArr.length){
     mov(tow_temp);
-    
+
     const ALL_PAGE_SEL = document.getElementById("all_page_sel");
     ALL_PAGE_SEL.value = tow_temp;  // ページ番号選択リストに反映
   }
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-//ページ番号選択リストで選んだ時 
+//ページ番号選択リストで選んだ時
 function all_page_mov(tow){
   tow = parseInt(tow);
   mov(tow);
@@ -485,7 +495,7 @@ function all_page_sel_clean(){
 }
 
 
-//############################################################################## 
+//##############################################################################
 //通常モード、全ページ閲覧モードの入れ替え
 function all_page_mode_change(){
 
@@ -497,20 +507,20 @@ function all_page_mode_change(){
   }else{
     ALL_PAGE_MODE.innerHTML= ToZENPAGE;
   }
-  
-      
+
+
   //すでにページがロードされているならば、画面上部のフォームの表示を更新＆セレクト リストをリセット
   if(pageArr.length != 0){
     all_page_form_display();
   }
 }
- 
 
-//############################################################################## 
+
+//##############################################################################
 //全ページ閲覧／通常モードで、画面上部のフォーム表示をととのえて＆セレクト リストをリセット
 function all_page_form_display(){
   all_page_sel_clean();
-  
+
   if (ALL_PAGE_MODE.innerHTML== ToZENPAGE){
     ALL_PAGE_FORMSDIV.style.display ="none";
     PLAY_TOOLBUTTONSDIV.style.display = "inline-block";
@@ -532,13 +542,13 @@ function all_page_form_display(){
     //（StoryOptionDic/StoryOptionDic.js内にある）
 
 function load_data(story_name){
-    
+
   let story_option = STORY_OPTIONS.find( ({ name }) => name == story_name );
   let story_script = story_option.script; //当該ストーリーデータ
   load_story_script(story_script);
-  
+
   //モーダルウインドウでイントロダクション表示
-  show_introduction(story_name); 
+  show_introduction(story_name);
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -556,17 +566,17 @@ function load_story_script(story_script){
 	tob_nameArr = {};
 
 	page_number = 0;
-  
+
   //####################
-  
+
 
   //改行コードの統一
-	story_script = story_script.replace(/\r\n/g,'\n'); 
-	story_script = story_script.replace(/\r/g, '\n');	 
+	story_script = story_script.replace(/\r\n/g,'\n');
+	story_script = story_script.replace(/\r/g, '\n');
 
   //「マップ」ボタンは基本的に出さない
-	document.getElementById("map_button").style.display="none"; 
-  
+	document.getElementById("map_button").style.display="none";
+
 	let file_lineArr = story_script.split("\n");  //テキストを改行で切り、1行1行配列にする
 
 
@@ -584,13 +594,13 @@ function load_story_script(story_script){
 		//ページなどのブロック構造があるため、for文内for文でネストさせて見ている。このイテレータもi。
 		//そのため、↓にあるこの「外側」にあたるforのループ１回分で、iが増加する量は1かそれ以上になっている。
 		for(i=0;i<file_lineArr.length;i++){
-      
+
 			//# 「フラグ」タグ #############
-			if(file_lineArr[i].match(/flag:(.+)>/)){        
+			if(file_lineArr[i].match(/flag:(.+)>/)){
         //例：<flag:2>なら、flagArr=[false,false]になる
-			  flagfile_lineArr = new Array(parseInt(RegExp.$1));
+			  flagArr = new Array(parseInt(RegExp.$1));
 			  for(let j=0;j<flagArr.length;j++){
-				flagArr[j]=false;   //flagArrの初期化
+          flagArr[j]=false;   //flagArrの初期化
 			  }
 			  i++;
 			}
@@ -615,19 +625,19 @@ function load_story_script(story_script){
 			  }
 			  i++;
 			}
-      
+
 			//マップがあるならば、「マップ」ボタンを出し、表示させる
 			if(file_lineArr[i].match(/mapimg:(.+)>/)){
 			  document.getElementById("map_button").style.display="inline-block";
 			  minimap_folder_name = "Assist/" + RegExp.$1 + "/map/";
-			  
+
 			}
-			
-      
+
+
 			//# 「ページ」タグ #############
       //さいしょはマップタグと呼んでおり、今も<page>ではなく、<map>というタグになっている
       //BF形式なら、まずBTAPの形式に直す
-			if(file_lineArr[i].match(/BFmap:([0-9]+)>/)){ 
+			if(file_lineArr[i].match(/BFmap:([0-9]+)>/)){
 				file_lineArr = BFtoBTAP(file_lineArr, i);
 			}
 
@@ -655,11 +665,11 @@ function load_story_script(story_script){
 							pageArr[temp_p]["nam"] = OpenInlineTag(RegExp.$1);
 
             //= ページ文章 =================
-						}else if(file_lineArr[i].match(/e:(.+)/)) {  
+						}else if(file_lineArr[i].match(/e:(.+)/)) {
 							pageArr[temp_p]["exp"] = OpenInlineTag(RegExp.$1);
 
             //= ページ文章（簡潔にしたバージョン）（改行しないもの） =================
-						}else if(file_lineArr[i].match(/\^\^(.*)$/)){  
+						}else if(file_lineArr[i].match(/\^\^(.*)$/)){
 							pageArr[temp_p]["exp"] += OpenInlineTag(RegExp.$1);
 
             //= ページ文章（簡潔にしたバージョン）（改行するもの） =================
@@ -667,19 +677,19 @@ function load_story_script(story_script){
 							pageArr[temp_p]["exp"] += OpenInlineTag(RegExp.$1) + "<br>";
 
             //= v要素（道具の内容を描写タブ部にかく） =================
-						}else if(file_lineArr[i].match(/v:(.*)$/)){  
+						}else if(file_lineArr[i].match(/v:(.*)$/)){
 							pageArr[temp_p]["exp"] += itemArr[parseInt(RegExp.$1)]["exp"] + "<br>";
-            
+
             //= 選択肢 =================
-						}else if(file_lineArr[i].match(/s:(.+)#(.+)/)) { 
+						}else if(file_lineArr[i].match(/s:(.+)#(.+)/)) {
 							pageArr[temp_p]["sel"].push(new Array(RegExp.$1, RegExp.$2));
-            
+
             //= ミニマップのレイヤー =================
             //背景画像指定
-						}else if(file_lineArr[i].match(/m:(.+)m(.+)/)) { 
+						}else if(file_lineArr[i].match(/m:(.+)m(.+)/)) {
 							minimapArr.push(new Array(temp_p, RegExp.$1, parseInt(RegExp.$2)));
             //背景画像指定の省略(既定のものを自動で選択)
-						}else if(file_lineArr[i].match(/m:(.+)/)) { 
+						}else if(file_lineArr[i].match(/m:(.+)/)) {
 							minimapArr.push(new Array(temp_p, RegExp.$1, 1));
 						}
 					}
@@ -692,7 +702,7 @@ function load_story_script(story_script){
 		/*let jstr = JSON.stringify({"fie": pageArr,"ite":itemArr});
 		  document.getElementById("d_desc").innerText = jstr;
 		  break; */
-		
+
 		document.getElementById("play_toolbuttonsDiv").style.display="inline-block";
 
 		const ALL_PAGE_MODE = document.getElementById("all_page_mode");
@@ -700,24 +710,24 @@ function load_story_script(story_script){
       //現在、全ページ閲覧モードの場合、まずページ選択フォームをリセットする
 			all_page_sel_clean();
 		}
-    
+
 	}
 }
 
-  
+
 
 //##############################################################################
 //BF形式のストーリーをBTAPの形式に直す
 	function BFtoBTAP(BF_lineArr,n){
   //BF_lineArrは、load_dataで読み込んだファイルの一行一行を配列にしたもの。
   //nは、いま見ている行。BF_lineArrの何要素から走査を始めればよいかを指す
-		
+
 	let ispage = false; //いま検討しているのは、ページの内部なのか否か？
 	//空白の改行は、「ページの内部の改行」なのか、あるいは「ページとページの間にある区切りの部分」なのかで意味が異なる。
 	//走査しながら、今、ページの内外のどちらを見ているのかを示すものがispage変数
 	//ispage=trueなら、ページの内部であることを指す
-	
-	
+
+
 	let temp_p = -1;//現在みているページ番号を追う。あとで+1して初期値0にするので、いまは-1で。
 	let back_num = temp_p-1;//「戻る」先のページ番号。(temp_p-1)の数字が入る
 	let front_num = temp_p+1;//「進む」先のページ番号。(temp_p+1)の数字が入る
@@ -735,7 +745,7 @@ function load_story_script(story_script){
 		//= ページ開始 =================
 		if(BF_lineArr[i].match(/\[(.+)/)){
 		  ispage = true;  //ここからページ内部に入る
-      
+
       //やろうとしていることは以下の変換
       //
       //  [タイトル
@@ -749,9 +759,9 @@ function load_story_script(story_script){
 		  temp_p++;
 		  back_num = temp_p - 1;
 		  front_num = temp_p + 1;
-      
+
 		  BF_lineArr[i] = "[" + temp_p + "]" ;
-      
+
       //[ページ番号]と描写の間にn要素を割り込ませる
 		  BF_lineArr.splice(i+1, 0, "n:" + RegExp.$1);
 		  i++;
@@ -759,12 +769,12 @@ function load_story_script(story_script){
     //= ページ終了（行末が ] ) =================
 		}else if(BF_lineArr[i].match(/\]/)){
 		  ispage = false;//ページ終了
-      
+
       //ページ終了には、]、bf]、b]、f] の4パターンがある。
       //BF形式では基本的に「進む」「戻る」選択肢が自動的に付与されるが、付与は制御可能。
       //bはback、fはfrontを表し、"後ろ／前に壁があるので戻れない"イメージ。
       //たとえばb]なら「進む」しか表示されないし、bf]なら両方表示されない。
-      
+
 		  if(BF_lineArr[i].match(/bf/)){//前後に壁
 			BF_lineArr[i] = "";
 		  }else if(BF_lineArr[i].match(/b\]/)){//後ろに壁
@@ -774,12 +784,12 @@ function load_story_script(story_script){
 		  }else{//前後に壁無し
 			BF_lineArr.splice(i,1,"s:次へ#mov(" + front_num +")", "s:戻る#mov(" + back_num +")");
 		  }
-		  
+
 		}else if((ispage) &&
             !(BF_lineArr[i].match(/s:/)) &&
             !(BF_lineArr[i].match(/v:/)) &&
-            !(BF_lineArr[i].match(/m:/))){ 
-        
+            !(BF_lineArr[i].match(/m:/))){
+
       //行頭に「^」を追加し、ページ描写として読み込めるようにする
 		  BF_lineArr[i] = "^" + BF_lineArr[i];
 		}
@@ -793,23 +803,23 @@ function load_story_script(story_script){
 //テキスト形式のストーリーファイル読み込み
 function load_txt_data(){
 	//エラーがあったら、とりあえず中断し「エラーがある」と言っておく
-	try{	
+	try{
 	  let myFile = document.getElementById("myfile").files[0];
-	  
+
 	  let reader = new FileReader();
-	  
+
 	  reader.onload = function (evt){
 		let txt = evt.target.result;
 		load_story_script(txt);   //load_dataへとテキストを送る
-    
+
     change_tab(2);  //「②みる」タブに移る
     all_page_form_display();  //全ページ閲覧／通常モードで、画面上部のフォーム表示切り替え
     mov(0);
 	  }
-	  
+
 	  reader.readAsText(myFile, "utf-8");
 	  document.getElementById("form_page").reset();
-	  
+
 	}catch{
 	  alert("ファイル選択にエラーがあります。");
 	}
@@ -826,7 +836,7 @@ function OpenInlineTag(story_script){
 	story_script = story_script.replace(/<r>(.+?)#(.+?)<\/r>/g, "<ruby>$1<rp>(</rp><rt>$2</rt><rp>)</rp></ruby>");
 
 	//ハイパーリンクの設定 <hl> → <span>
-	story_script = story_script.replace(/<hl>(.+?)#(.+?)<\/hl>/g, 
+	story_script = story_script.replace(/<hl>(.+?)#(.+?)<\/hl>/g,
     "<span  class=\"hl-border\"><a href='#' onclick=\"$2\" class=\"hl-border\" tabindex=\"0\">$1</a></span>");
 
 	return(story_script);
@@ -838,8 +848,8 @@ function OpenInlineTag(story_script){
 function show_page(){
 	let html_code = "";
     //= 開発者モードではないなら、描写文やタイトルをふつうに表示する =================
-		if(!isAuthor){  
-			html_code = 
+		if(!isAuthor){
+			html_code =
             '<p class="page-title">'
           +   '<span class="page_nam">'
 					+       pageArr[page_number]["nam"]
@@ -850,16 +860,16 @@ function show_page(){
 					+ '</div>'
           + '<div class="li_div">'
           +   '<ul>';
-          
+
 		//= 開発者モードなら、一部のマークアップタグを外したり別のものに変換してから表示する =================
-		}else{ 
+		}else{
 			exp_for_textarea = pageArr[page_number]["exp"];
-			exp_for_textarea = exp_for_textarea.replace(/<br>/g,'\n');  
+			exp_for_textarea = exp_for_textarea.replace(/<br>/g,'\n');
 			exp_for_textarea = exp_for_textarea.replace(/<\/?ruby>/g,'');
 			exp_for_textarea = exp_for_textarea.replace(/<\/?rt>/g,'');
 			exp_for_textarea = exp_for_textarea.replace(/<\/?rp>/g,'');
 			exp_for_textarea = exp_for_textarea.replace(/<\/?b>/g,'**');
-	  
+
 			html_code =
           '<button class="Author_command_button" onclick="copy_textarea_memo()">コピー</button>'
         + '<button class="Author_command_button" onclick="delete_textarea_memo()">クリア</button>'
@@ -874,13 +884,13 @@ function show_page(){
 	//# ページの選択肢をつくる #############
 	for(let i=0;i<pageArr[page_number]["sel"].length;i++){
 	  html_code += '<li class="li_sel">'
-          + '<a href="#" onclick="' 
-            + pageArr[page_number]["sel"][i][1] 
+          + '<a href="#" onclick="'
+            + pageArr[page_number]["sel"][i][1]
           + '" tabindex="0">'
             + pageArr[page_number]["sel"][i][0]
           + '</a></li>';
 	}
-	
+
 	html_code += "</ul></div>";
 
 	D_DESC.innerHTML = html_code;
@@ -900,8 +910,8 @@ function mov_from_introduction(){
 
 //下に積み上げて表示バージョン
 function straight_mov_from_introduction(){
-  close_modal();  
-  change_tab(2);  
+  close_modal();
+  change_tab(2);
   straight_mov(); //上とは違い、mov()ではないことに注意
 }
 
@@ -913,12 +923,12 @@ function copy_textarea_memo() {
   let titl = document.getElementById("title_textarea");
   let desc = document.getElementById("desc_textarea");
 
-  let ans = "[" 
+  let ans = "["
     + titl.value
     + "\n"
     + desc.value
     + "\nb]\n";
-    
+
   navigator.clipboard.writeText(ans)
 }
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -934,7 +944,7 @@ function delete_textarea_memo() {
 //##############################################################################
 //積み上げ表示用のタイトル表示
 function stright_title_write(n){
-  let temp = 
+  let temp =
         '<p class="page-title"><span class="page_nam">'
           + pageArr[n]["nam"]
           + "</span></p>";
@@ -944,7 +954,7 @@ function stright_title_write(n){
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 //積み上げ表示用の本文表示
 function stright_exp_write(page_number){
-  let temp = "<div>" 
+  let temp = "<div>"
         + pageArr[page_number]["exp"]
         + '</div>';
   return(temp);
@@ -954,38 +964,38 @@ function stright_exp_write(page_number){
 //下に積み上げ式のページ表示
 //ページを表示するという処理が似ているのでmovの名前をつけた
 //やりたいことは、「前のページとタイトルが同じなら、そのページのタイトルは省略して描写文をそのまま書き連ねる」こと。
-function straight_mov(){  
+function straight_mov(){
 
   //戻る、とばす、最初からなどの、ページ移動機能は表示しない
   document.getElementById("play_toolbuttonsDiv").style.display="none";
-  
+
   let html_code ="";  //最終表示内容
-  
-  
+
+
   //====[ 表示する内容 ]=====
   //0ページ目、および、前のページとタイトルが違うページ→ タイトル(nam) & 内容(exp)
   //                               それ以外： 内容(exp)のみ
   //
   //全ページをforで走査して、html_codeに表示事項を積み上げる。
-  
+
   for(let each_page_number=0; each_page_number< pageArr.length; each_page_number++){
-    if(each_page_number != 0){ 
-      if(pageArr[each_page_number-1]["nam"] == pageArr[each_page_number]["nam"]){ 
+    if(each_page_number != 0){
+      if(pageArr[each_page_number-1]["nam"] == pageArr[each_page_number]["nam"]){
 		//0ページ目ではなく、かつ、名前は前ページのそれと同じな場合
-        html_code += "<br>" + stright_exp_write(each_page_number)+ "<br><hr>"; 
-		
+        html_code += "<br>" + stright_exp_write(each_page_number)+ "<br><hr>";
+
       }else{
 		//0ページ目ではなく、かつ、名前は前ページのそれと違う場合
-        html_code += stright_title_write(each_page_number) +  stright_exp_write(each_page_number) + "<br><hr>"; 
+        html_code += stright_title_write(each_page_number) +  stright_exp_write(each_page_number) + "<br><hr>";
       }
     }else{
 		//0ページめの場合
-      html_code += stright_title_write(each_page_number) +  stright_exp_write(each_page_number) + "<br><hr>"; 
+      html_code += stright_title_write(each_page_number) +  stright_exp_write(each_page_number) + "<br><hr>";
     }
   }
-  
+
   D_DESC.innerHTML = html_code; //表示
-  
+
 }
 
 //##############################################################################
@@ -1004,24 +1014,24 @@ function open_map(){
 
 //ミニマップ
 function mapping(mokuji){ //引数mokujiは整数。ページ固有画像名の番号。
-  
+
   let map = "";
   let ismapappoint = false; //m:タグでページ固有画像が指定されているか否か。されていない（falseのまま）なら、背景画像だけ表示させる。
-  
+
   if(minimap_folder_name==""){
     map = "このページではマップが用意されておりません。";
   }else{
     for(let i=0;i<minimapArr.length; i++){
       if(minimapArr[i][0]==mokuji){//指定されたページ固有画像の番号
-        map += '<img src="' + minimap_folder_name + minimapArr[i][1] 
+        map += '<img src="' + minimap_folder_name + minimapArr[i][1]
 				+ '.png" class="map_img layer_img" alt="エラー：ページ固有画像"/>';
-        map += '<img src="' +  minimap_folder_name  + 'map' + minimapArr[i][2] 
+        map += '<img src="' +  minimap_folder_name  + 'map' + minimapArr[i][2]
 				+ '.png" class="map_img back_img" alt="エラー：マップ背景画像"/>';
         ismapappoint = true;
         break;
       }
     }
-   
+
     if(!ismapappoint){//ページ固有画像が指定されていない場合、背景画像だけ表示させる。
       map+= '<img src="' +  minimap_folder_name  + 'map1.png" class="map_img back_img" alt="エラー：マップ背景画像"/>';
     }
@@ -1040,36 +1050,36 @@ function show_introduction(story_name){
   let if_under_writable = story_option.under_writable;
   //平文版のファイル名
   let cleartext_filename = story_option.cleartext_filename;
-  
+
   let abst = '<p><span class="page_nam">' + pageArr[page_number]["nam"] + "</span></p>";
 
   abst += '<div><ul>'
           +'<li class="li_sel">'
           + '<a href="#" onclick="mov_from_introduction();" tabindex="0" accesskey="s">始める(<u>S</u>)</a>'
           + '</li>';
-          
+
   //= 下に積み上げて表示が可能なら、そのオプションも追加で表示する =================
-  if(if_under_writable){  
+  if(if_under_writable){
     abst += '<li class="li_sel">'
           + '<a href="#" onclick="straight_mov_from_introduction();" tabindex="0" accesskey="u">下に積み上げて表示(<u>U</u>)</a>'
           + '</li>';
   }
-  
+
   //= 平文版が有るなら、そのオプションも追加で表示する =================
-  if(cleartext_filename != ""){ 
+  if(cleartext_filename != ""){
     abst += '<li class="li_sel">'
           + '<a href="StoryCleartext\\' + cleartext_filename + '.html" target="_blank" tabindex="0" accesskey="c">平文版（新しいタブで開く）(<u>C</u>)</a>'
           + '</li>';
   }
-  
+
   //===========================
-  abst  +=  '</ul></div>'                         
+  abst  +=  '</ul></div>'
         +   "<p>[ ページ数 : " + pageArr.length + " ]</p>"
         +   "<p>[ リードミー ]<br>" + itemArr[itemArr.length-1]["exp"] + "</p>";
 
   //スマホでの見切れ対策。下部に空白入れる。
   abst += "<br><br><br>";
-  
+
   ABST_DESC.innerHTML = abst;
 }
 
@@ -1079,7 +1089,7 @@ function show_introduction(story_name){
 // セーブデータ
 
 //セーブデータの文字列を作る
-function makesave(){
+function make_save(){
   let ans = "flg:";    //フラグ
   for(let i=0;i<flagArr.length;i++){
     if(flagArr[i]){
@@ -1111,7 +1121,7 @@ function makesave(){
 //セーブデータのフォームへの書き出し ===============
 function write_savefile(){
     try{
-      let savedata = makesave();
+      let savedata = make_save();
       let t_savedata = document.getElementById("t_savedata")
 
       t_savedata.innerHTML = "";
@@ -1160,7 +1170,7 @@ function load_savefile(txt){
       numArr = RegExp.$1.split(",");
     }
   }
-  ite_reflesh();
+  item_reflesh();
   mov(page_number);
   alert("ロードされました。");
 }
@@ -1174,12 +1184,12 @@ function remov(){
   }else{
     savedata_footprintArr.shift();
     load_savefile(savedata_footprintArr.shift());//セーブ記録の最初の要素が１つ前のセーブデータ
-  
+
   /* やっていることは何か?
   savedata_footprintArr(これまで進んできたページの記録リスト)には、セーブデータの文字列が入っている。
   仮にＡページ→Ｂページ→Cページの順に移動する場合を考える。
   それぞれのページにいるときのセーブデータ文字列をa, b, cとすると以下のように処理が行われる。
-  
+
   1. Aページにいるとき			savedata_footprintArr=[a]
   2. Bページに移動したあと		savedata_footprintArr=[b,a]
   3. Cページに移動したあと		savedata_footprintArr=[c,b,a]
@@ -1199,19 +1209,19 @@ function remov(){
 //選択肢スキップ
 //複数選択肢があるページ、もしくはページの終わり(選択肢0)までスキップする
 function page_skip(){
-  
+
   //= まだページが選択されていないような場合 ==============
-  if(pageArr.length == 0){ 
+  if(pageArr.length == 0){
     alert("スキップできません");
-    
+
   //= 選択肢の数が0、つまり選択肢がない場合 ==============
   }else if(pageArr[page_number]["sel"].length == 0){
     alert("現在のページでおわりです。");
-    
+
   //= 選択肢が複数ある場合 ==============
   }else if(pageArr[page_number]["sel"].length != 1){
     alert("現在のページには選択肢が複数あるため、スキップできません。");
-    
+
   //= 上記の例外以外なら、スキップ可能 ==============
   }else{
     let isskip = window.confirm("次に来る、選択肢が複数あるページまでスキップしますか？（この先にそのようなページがない場合は、最後のページまでスキップされます）");
@@ -1236,22 +1246,22 @@ function from_scratch(){
   savedata_footprintArr = [];
   if(ifscratch){
     let temp_save= "flg:";
-    
+
     for(let i = 0; i<flagArr.length;i++){
       temp_save +="f";
     }
-    
+
     temp_save +="\nite:";
-    
+
     for(let j = 0; j<itemArr.length;j++){
       temp_save +="f";
     }
-    
+
     temp_save += "\nfie:0\nnum:0"
     for(let k = 0; k<numArr.length-1;k++){
       temp_save +=",0";
     }
-    
+
     load_savefile(temp_save);
   }
 }

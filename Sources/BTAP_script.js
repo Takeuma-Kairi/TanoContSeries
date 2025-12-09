@@ -2,7 +2,7 @@
   //マップ移動
   function mov(tow) {
     page_number = tow;
-    let temp  =makesave();
+    let temp  =make_save();
     savedata_footprintArr.unshift(temp);  //セーブを追加、パンくずを追加する
     
     //========-
@@ -35,7 +35,7 @@
   //アイテムをなくす
   function losi(n){
     itemArr[n]["hav"]=false;
-    ite_reflesh();
+    item_reflesh();
     listing_item();
   }
 
