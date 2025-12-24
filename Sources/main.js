@@ -4,7 +4,6 @@
 // "all_page_mode"ボタンのinnerTextは、以下の2つのいずれか
 const ToTSUJO= "→通常モード(<u>A</u>)";
 const ToZENPAGE= "→全ページ閲覧モード(<u>A</u>)";
-//=============================================
 
 
 //= それぞれのタブ ===============================
@@ -13,9 +12,8 @@ const TABDIV_SETTING = document.getElementById("tabDiv_setting");
 const TABDIV_SELECT = document.getElementById("tabDiv_select");
 const TABDIV_SUMMARY = document.getElementById("tabDiv_summary");
 
-//↑を配列にしたもの
+//↑を配列にしたもの。for文で走査するとき使用
 const TABDIV_ARR = [TABDIV_SETTING, TABDIV_SELECT, TABDIV_PAGE, TABDIV_SUMMARY];
-//=============================================
 
 
 //=画面上部のボタン・フォーム集 ======================
@@ -27,23 +25,18 @@ const ALL_PAGE_FORMSDIV = document.getElementById("all_page_formsDiv");
 //通常モードでの、戻る、とばす、マップなどのフォーム
 const PLAY_TOOLBUTTONSDIV = document.getElementById("play_toolbuttonsDiv");
 
-//=============================================
-
 
 //アイテムを（非）表示のボタン ========================
-const BUTTON_OPENITEM = document.getElementById("button_openitem");//=============================================
-
+const BUTTON_OPENITEM = document.getElementById("button_openitem");
 
 //ストーリー本文(タイトル、描写文、選択肢)を入れるdiv ===
 const D_DESC=document.getElementById("d_desc");
-//=============================================
-
 
 //モーダルウィンドウ描写部 ==========================
 const ABST_DESC=document.getElementById("abst_desc");
-//=============================================
 
 //##############################################################################
+
 // ページ情報を入れたり、プレイ時に変更される変数
 
 let flagArr = [];  //フラグ
@@ -59,7 +52,8 @@ let isAuthor = false; //開発者モードならばtrue。
 
 //=============================================
 
-let savedata_footprintArr = []; //セーブデータ文字列を入れる配列。パンくずリスト。「戻る(remov)」で利用する
+//セーブデータ文字列を入れる配列。パンくずリスト。「戻る(remov)」で利用する
+let savedata_footprintArr = []; 
 
 //= ミニマップ関係 ==========================
 let minimap_folder_name = ""; //→ミニマップ画像の入っているフォルダ名。（Assist/XXX/map/の中にマップ画像群が入っている。この変数には、文字列XXXが入る。）
@@ -67,7 +61,6 @@ let minimap_folder_name = ""; //→ミニマップ画像の入っているフォ
 let minimapArr =[];
 //→ミニマップの現在位置を表す画像群を配列にする。
 //[ [目次番号, 背景ファイル名, 現在地ファイル名] ...]
-//=============================================
 
 
 //##############################################################################
@@ -98,10 +91,11 @@ function sort_story_select_table(){
 
 
   //フォームから読み取った並び替えの情報を、数値(1 or -1)に直す
-  if(sort_order == "ascend"){  //昇順ならば
+  //あとで掛け算することで方向の符号反転させるためのもの。
+  if(sort_order == "ascend"){  //昇順→1
     sort_order = 1;
-  }else{
-    sort_order = -1; //この-1は、あとで掛け算することで方向の符号反転させるためのもの。
+  }else{  //降順→-1
+    sort_order = -1; 
   }
 
   switch (sort_category){
@@ -421,8 +415,7 @@ function item_reflesh(){
 
   hide_item();
 
-  //get_item_alert(false) //アイテム獲得時の強調は無しで初期化する必要ある？
-
+  
   //アイテムが存在していないなら、「アイテムを表示」ボタンは表示させない
   if(have_any_item){
     BUTTON_OPENITEM.style.display="inline-block";
@@ -436,7 +429,7 @@ function item_reflesh(){
 //開発者モード
 function change_to_dev_mode(){
 	let password = prompt("パスワード？");
-	if(password == "mmm"){  //そうですパスワードは「mmm」。ソースコードの中に書くなんて、脆弱だねえ！
+	if(password == "mmm"){  //↑パスワードは「mmm」。ソースコードの中に書くなんて、脆弱だねえ！
 		isAuthor= true; //開発者モードであることを示すフラグ
 
 		//全ページ閲覧モード

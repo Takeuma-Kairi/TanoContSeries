@@ -14,6 +14,8 @@
   一つ前のページ(H)  hidari
   一つ後ろのページ(M) migi
 
+平文版（C) cleartext
+
 セーブデータ：
   取得（Ｇ） get
   ロード(L) load
@@ -27,7 +29,7 @@
   <!--日本語対応-->
   <meta charset="UTF-8"> 
   
-  <title>大陸シリーズ BTAP4 5.19.1</title>
+  <title>大陸シリーズ BTAP4 5.19.2</title>
   <meta name="viewport" content="width=device-width" />
   <link rel="stylesheet" href="Sources/style.css?20251210" type="text/css">
   
@@ -36,9 +38,9 @@
 
   
   <!--NotoSansフォント導入-->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+  <!--<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">-->
+  <!--<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">-->
 
   
   <!--ファビコン-->
@@ -59,7 +61,7 @@
           <a href="#" onclick="change_tab(2)" class="a_without_underline">②みる</a>
         </li>
         
-				<hr> <!--区切り線。この要素はここにあるべきではないと警告されているが、うまく表示されているので無視して入れている。-->
+				<hr> <!--区切り線。本来、この要素はここにあるべきではないらしいが、うまく表示されているので無視して入れている。-->
         
 				<li onclick="change_tab(3)" id="li_summary" class="non-active_li">
           <a href="#" onclick="change_tab(3)" class="a_without_underline">まとめ</a>
@@ -120,6 +122,11 @@
 				<th class="hidden_th">作成順</th>  
 				<th class="hidden_th">時系列順</th>
 			</tr>
+			
+			<!-- ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+			ここから、大陸シリーズ目次順番.odsでの集計結果をコピペ 
+			＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ -->
+			
 <tr onclick='load_data("UserTour")'>	<td><a href='#' class='a_without_underline'>画面説明</a></td>	<td>UserTour</td>	<td><div class='series_color_tag meta'>0.メタ</div></td>	<td class='hidden_th'>0</td>	<td class='hidden_th'>0</td></tr>
 <tr onclick='load_data("Kunugi")'>	<td><a href='#' class='a_without_underline'>櫟木の一日</a></td>	<td>Kunugi</td>	<td><div class='series_color_tag variation'>3.多様</div></td>	<td class='hidden_th'>1</td>	<td class='hidden_th'>40</td></tr>
 <tr onclick='load_data("Minda")'>	<td><a href='#' class='a_without_underline'>黒縄のミンダ</a></td>	<td>Minda</td>	<td><div class='series_color_tag minda1'>1.ミンダ前編</div></td>	<td class='hidden_th'>2</td>	<td class='hidden_th'>12</td></tr>
@@ -163,10 +170,10 @@
 <tr onclick='load_data("Tochino2")'>	<td><a href='#' class='a_without_underline'>本当の災い</a></td>	<td>Tochino2</td>	<td><div class='series_color_tag variation'>3.多様</div></td>	<td class='hidden_th'>40</td>	<td class='hidden_th'>11</td></tr>
 
 
-
-
-
-
+			<!-- ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+			目次順番ここまで 
+			＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ -->
+			
 		</table>
 	</div>
 	
@@ -356,11 +363,11 @@
     <h2 class='series_color_tag variation'>多様</h2>
     以下の、他シリーズに示すシリーズに当てはまらないストーリーです。
     <p>
-      <img src='Assist/Matome/Tayo.jpg' class='matome_img'
+      <img src='Assist/Matome/Tayo.jpg' loading='lazy' class='matome_img'
         alt="管轄がおこる前に、ばせる様が生まれ、同時期に北岸防衛作戦がある"/>
-      <img src='Assist/Matome/Tayo2.jpg' class='matome_img'
+      <img src='Assist/Matome/Tayo2.jpg' loading='lazy'  class='matome_img'
         alt="管轄がおこったあと、ばせる様が暴動を起こす"/>
-      <img src='Assist/Matome/Tayo3.jpg' class='matome_img'
+      <img src='Assist/Matome/Tayo3.jpg' loading='lazy' class='matome_img'
         alt="ミンダシリーズのあとにもいろいろなうごきがある"/>
     </p>
 
@@ -371,11 +378,11 @@
   ミンダからはじまり、様々な思惑が交錯しながら、ある一つの目標に向かって突き進んでいくシリーズです。<br>
   複数の組織、思想を複合しており、大陸物語のガイダンス的な役割も担っています。
     <p>
-      <img src='Assist/Matome/Minda.jpg' class='matome_img' 
+      <img src='Assist/Matome/Minda.jpg' loading='lazy' class='matome_img' 
         alt="池家ひたみが黒縄様の儀式を行い、猪目が接触する。"/>
-      <img src='Assist/Matome/Minda2.jpg' class='matome_img'
+      <img src='Assist/Matome/Minda2.jpg' loading='lazy' class='matome_img'
         alt="ミンダが黒縄様に攻撃され、徐々に大陸になっていく。"/>
-      <img src='Assist/Matome/Minda3.jpg' class='matome_img'
+      <img src='Assist/Matome/Minda3.jpg' loading='lazy' class='matome_img'
         alt="様々な思惑が交錯しながら大鹿と黒縄に集結する。"/>
     </p>
 
@@ -384,7 +391,7 @@
     <h2 class='series_color_tag sana'>サナ</h2>
   ルストラル・セイバル サナを中心としたストーリーです。
     <p>
-      <img src='Assist/Matome/Seibal.jpg' class='matome_img'
+      <img src='Assist/Matome/Seibal.jpg' loading='lazy' class='matome_img'
         alt="サナの復活に際して様々な動きがある。"/>
     </p>
 
@@ -392,7 +399,7 @@
     <h2 class='series_color_tag kazasaki'>風咲</h2>
     風咲を中心としたストーリーです。
     <p>
-      <img src='Assist/Matome/Kazasaki.jpg' class='matome_img'
+      <img src='Assist/Matome/Kazasaki.jpg' loading='lazy' class='matome_img'
         alt="サナの復活に際して様々な動きがある。"/>
     </p>
 		<hr>
