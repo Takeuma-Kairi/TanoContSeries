@@ -1,7 +1,15 @@
 @charset "utf-8";
 /* =========================================================== */
 body{
-  font-family: 'Yu Gothic Medium', '游ゴシック Medium', sans-serif;
+  font-family: 
+    "Hiragino Kaku Gothic ProN",
+    "Hiragino Sans",
+    "Noto Sans JP",
+    'Yu Gothic Medium', 
+    '游ゴシック Medium',
+    sans-serif;
+  
+    
   font-size: 18px;
 }
 
