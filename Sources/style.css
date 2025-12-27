@@ -134,7 +134,7 @@ nav ul li {
   display:none;
 }
 /* =========================================================== */
-/* コマンドボタン */
+/* コマンドボタン全般 */
 .tool_button{
   padding: 5px;
   margin: 5px;
@@ -143,19 +143,20 @@ nav ul li {
   display: inline-block;
 }
 
-.buttons_area{
-  display:none; /* 本来はボタンたちは非表示 */
-  width:100%;
-  text-align:right;
-}
-
-/* 戻す＆スキップ */
-.redo_and_skip{
+/* 戻す＆スキップなどのボタン */
+.play_toolbutton{
   width: 4em;
   margin: 0px;
   margin-left: 2px;
   text-align:center;
 }
+
+.play_toolbuttonsDiv{
+  display:none; /* 本来は上のボタンたちは非表示 */
+  width:100%;
+  text-align:right;
+}
+
 
 /* ミニマップ表示ボタンはデフォルトでは表示しない */
 .map_button{
@@ -310,7 +311,7 @@ hr{
 
 /* ================================= */
 /* 全ページ閲覧モード */
-.all_page_view{
+.all_page_formsDiv{
   display: none;
   margin-top:20px;
 }
