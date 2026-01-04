@@ -47,10 +47,8 @@ let numArr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];  //番号配列（フラグ�
 let tob_nameArr = {}; //tob関数用の連想配列。[タブ名: ページ番号]
 
 //=============================================
-
-let isAuthor = false; //開発者モードならばtrue。
-
-//=============================================
+//開発者モードならばtrue。
+let is_author = false; 
 
 //セーブデータ文字列を入れる配列。パンくずリスト。「戻る(remov)」で利用する
 let savedata_footprintArr = []; 
@@ -66,12 +64,20 @@ let minimapArr =[];
 //##############################################################################
 //##############################################################################
 
-// サイト読み込み時、まずストーリー選択テーブルのソートをする
+// サイト読み込み時、まずストーリー選択テーブルのソートをする。
+// また、~index.html?target=ストーリー名 の形のリンクから来た場合、そのストーリーを開始
 window.addEventListener('DOMContentLoaded', function() {
+  const params = new URLSearchParams(window.location.search);
+  
   sort_story_select_table();
+  
+  if(params.has('target')){
+    load_data(params.get('target'));
+  }
 });
+
 // ↓
-// ↓実際の処理内容
+// ↓ストーリー選択テーブルのソート
 // ↓
 function sort_story_select_table(){
   //表と配列の転記を行う。
@@ -430,7 +436,7 @@ function item_reflesh(){
 function change_to_dev_mode(){
 	let password = prompt("パスワード？");
 	if(password == "mmm"){  //↑パスワードは「mmm」。ソースコードの中に書くなんて、脆弱だねえ！
-		isAuthor= true; //開発者モードであることを示すフラグ
+		is_author= true; //開発者モードであることを示すフラグ
 
 		//全ページ閲覧モード
 		document.getElementById("all_page_mode").innerHTML= ToZENPAGE;
@@ -609,8 +615,8 @@ function load_story_script(story_script){
 				  //アイテムタグを、名前と説明に分ける
             if(file_lineArr[i].match(/\[(.+?)\](.+?)#(.+)/)){
             itemArr[parseInt(RegExp.$1)] =
-                      {nam: OpenInlineTag(RegExp.$2),
-                      exp: OpenInlineTag(RegExp.$3),
+                      {nam: open_inline_tag(RegExp.$2),
+                      exp: open_inline_tag(RegExp.$3),
                       hav:false};
                       //名前、説明文、所持しているか(初期値はfalse)
             }
@@ -631,7 +637,7 @@ function load_story_script(story_script){
       //さいしょはマップタグと呼んでおり、今も<page>ではなく、<map>というタグになっている
       //BF形式なら、まずBTAPの形式に直す
 			if(file_lineArr[i].match(/BFmap:([0-9]+)>/)){
-				file_lineArr = BFtoBTAP(file_lineArr, i);
+				file_lineArr = BF_to_BTAP(file_lineArr, i);
 			}
 
 			if(file_lineArr[i].match(/map:([0-9]+)>/)){
@@ -655,19 +661,19 @@ function load_story_script(story_script){
 
 						//= ページ名 =================
 						}else if(file_lineArr[i].match(/n:(.+)/)) {
-							pageArr[temp_p]["nam"] = OpenInlineTag(RegExp.$1);
+							pageArr[temp_p]["nam"] = open_inline_tag(RegExp.$1);
 
             //= ページ文章 =================
 						}else if(file_lineArr[i].match(/e:(.+)/)) {
-							pageArr[temp_p]["exp"] = OpenInlineTag(RegExp.$1);
+							pageArr[temp_p]["exp"] = open_inline_tag(RegExp.$1);
 
             //= ページ文章（簡潔にしたバージョン）（改行しないもの） =================
 						}else if(file_lineArr[i].match(/\^\^(.*)$/)){
-							pageArr[temp_p]["exp"] += OpenInlineTag(RegExp.$1);
+							pageArr[temp_p]["exp"] += open_inline_tag(RegExp.$1);
 
             //= ページ文章（簡潔にしたバージョン）（改行するもの） =================
 						}else if(file_lineArr[i].match(/\^(.*)$/)){  //改行を簡潔にした説明文
-							pageArr[temp_p]["exp"] += OpenInlineTag(RegExp.$1) + "<br>";
+							pageArr[temp_p]["exp"] += open_inline_tag(RegExp.$1) + "<br>";
 
             //= v要素（道具の内容を描写タブ部にかく） =================
 						}else if(file_lineArr[i].match(/v:(.*)$/)){
@@ -711,7 +717,7 @@ function load_story_script(story_script){
 
 //##############################################################################
 //BF形式のストーリーをBTAPの形式に直す
-	function BFtoBTAP(BF_lineArr,n){
+	function BF_to_BTAP(BF_lineArr,n){
   //BF_lineArrは、load_dataで読み込んだファイルの一行一行を配列にしたもの。
   //nは、いま見ている行。BF_lineArrの何要素から走査を始めればよいかを指す
 
@@ -823,7 +829,7 @@ function load_txt_data(){
 //##############################################################################
 //ルビやハイパーリンクなどのBTAPタブをHTMLになおす。
 
-function OpenInlineTag(story_script){
+function open_inline_tag(story_script){
 
 	//ルビの設定<r> → <ruby>
 	story_script = story_script.replace(/<r>(.+?)#(.+?)<\/r>/g, "<ruby>$1<rp>(</rp><rt>$2</rt><rp>)</rp></ruby>");
@@ -841,7 +847,7 @@ function OpenInlineTag(story_script){
 function show_page(){
 	let html_code = "";
     //= 開発者モードではないなら、描写文やタイトルをふつうに表示する =================
-		if(!isAuthor){
+		if(!is_author){
 			html_code =
             '<p class="page-title">'
           +   '<span class="page_nam">'
