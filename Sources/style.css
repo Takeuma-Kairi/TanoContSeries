@@ -258,6 +258,7 @@ nav ul li {
 .system_hl{
   color:#7378ff;
   text-decoration: underline;
+  font-weight: bold;
 }
 
 /* =========================================================== */
