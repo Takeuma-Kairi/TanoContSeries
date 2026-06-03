@@ -292,4 +292,8 @@ s:選択肢#tob('efg');
 2026.5.3 v5.20.2
 	「ストーリー依存関係」図へのリンク修正
 
+2026.6.3 v5.20.3
+	レンダリング機構の改善
+　　（style.css／default.css／main.js：link rel="preload"）
+
 

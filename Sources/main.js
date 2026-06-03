@@ -69,7 +69,7 @@ let minimapArr =[];
 window.addEventListener('DOMContentLoaded', function() {
   const params = new URLSearchParams(window.location.search);
   
-  sort_story_select_table();
+  //sort_story_select_table();
   
   if(params.has('target')){
     load_data(params.get('target'));
