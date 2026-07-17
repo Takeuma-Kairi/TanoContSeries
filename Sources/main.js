@@ -1067,7 +1067,7 @@ function show_introduction(story_name){
   //= 平文版が有るなら、そのオプションも追加で表示する =================
   if(cleartext_filename != ""){
     abst += '<li class="li_sel">'
-          + '<a href="StoryCleartext\\' + cleartext_filename + '.html" target="_blank" tabindex="0" accesskey="c">平文版（新しいタブで開く）(<u>C</u>)</a>'
+          + '<a href="StoryCleartext\\' + cleartext_filename + '.html?20260717" target="_blank" tabindex="0" accesskey="c">平文版（新しいタブで開く）(<u>C</u>)</a>'
           + '</li>';
   }
 
